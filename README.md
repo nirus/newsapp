@@ -1,4 +1,4 @@
-This is a Fullstack [Next.js](https://nextjs.org/) project for CodeNast
+This is a Fullstack [Next.js](https://nextjs.org/) project for CondeNast
 
 ## Getting Started
 
