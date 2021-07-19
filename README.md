@@ -44,6 +44,7 @@ Points to note
 - Mobile view compatible
 - Initial SSR for SEO
 - Isomorphic React components
+- Load more - defer the loading.
 
 ## Project by
 Niranjan Kumar
