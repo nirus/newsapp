@@ -1,3 +1,4 @@
+/*eslint-disable */
 import React, { useState } from 'react';
 
 /**
@@ -22,3 +23,5 @@ export const ImageLoader = (props)=>{
 }
 
 export default ImageLoader;
+
+/*eslint-enable */

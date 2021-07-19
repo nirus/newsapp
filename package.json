@@ -7,7 +7,8 @@
     "dev-inspect":"NODE_OPTIONS='--inspect' next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "put-key": "node -e \"var fs = require('fs'); var token = process.argv.slice(1)[0];fs.writeFileSync('.env.local', 'NEXT_PUBLIC_NEWS_API_TOKEN=' + token, 'utf-8')\""
   },
   "dependencies": {    
     "next": "11.0.1",
