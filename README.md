@@ -4,9 +4,26 @@ This is a Fullstack [Next.js](https://nextjs.org/) project for CondeNast
 
 Follow - run the development server:
 
+- First need to insert the ```News_API_key```. Please run as below
+
+```bash
+npm run put-key -- "PUT_KEY_HERE" #(I have sent in mail)
+```
+
+example usage : `npm run put-key -- 84cf2433bbd546b51fb8`
+
+- Next step
 ```bash
 npm i
 npm run dev
+```
+-- OR -- 
+
+- For production build
+
+```bash
+npm run build
+npm start
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
