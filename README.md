@@ -12,6 +12,8 @@ npm run put-key -- "PUT_KEY_HERE" #(I have sent in mail)
 
 example usage : `npm run put-key -- 84cf2433bbd546b51fb8`
 
+** API_KEY is loaded from `.env.local` file. Above command creates it and dumps the key.
+
 - Next step
 ```bash
 npm i
