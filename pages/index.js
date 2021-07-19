@@ -6,6 +6,7 @@ import { getTopNews, getNewsByQuery } from './api/news';
 import { useState } from 'react';
 import { NEW_PAGE_SIZE } from '../app-config/constants';
 import SearchBar from '../components/SearchBar';
+import { v4 as uuidv4 } from 'uuid';
 
 /**
  * Home page for news feed
@@ -83,7 +84,7 @@ export default function Home(props) {
 
         <div className={styles.grid}>
           {news.map((articles, index)=>{
-            return (<NewsArticle key={index} className={styles.card} title={articles.title} url={articles.url} image={articles.urlToImage} description={articles.description} />)
+            return (<NewsArticle key={uuidv4()} className={styles.card} title={articles.title} url={articles.url} image={articles.urlToImage} description={articles.description} />)
           })}
         </div>
         <button className={styles.loadMore} onClick={()=> loadMore()}>Load More</button>
