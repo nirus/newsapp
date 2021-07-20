@@ -2,7 +2,6 @@ import Head from 'next/head';
 import Image from 'next/image';
 import styles from '../styles/home.module.scss';
 import NewsArticle from '../components/NewsArticle';
-import { getTopNews, getNewsByQuery } from './api/news';
 import { useState } from 'react';
 import { NEW_PAGE_SIZE } from '../app-config/constants';
 import SearchBar from '../components/SearchBar';
@@ -18,9 +17,10 @@ export default function Home(props) {
   const [ news, setNews ] = useState(props.articles);
   const [ searchTerm, setSearchTerm ] = useState('');
 
-  const [pageSize, setPageSize] = useState(NEW_PAGE_SIZE + 10);
-  const makeSearchRequest = (search)=>{   
-    getNewsByQuery(search).then((resp)=>{      
+  const [page, setpage] = useState(NEW_PAGE_SIZE);
+  
+  const makeSearchRequest = (search, page)=>{   
+    getNewsByQuery(search, page).then((resp)=>{      
       setSearchTerm(search);
       setNews(resp.articles);
     })
@@ -29,15 +29,31 @@ export default function Home(props) {
     })
   };
 
+  const commonWrapper = (api)=>{
+    return api.then((resp)=> resp.json()).catch((e)=>{ console.error("Error in API call: ", e) });
+  }
+
+  const getTopNews = (page)=>{
+    return commonWrapper(fetch(encodeURI(`/api/news?page=${page}`)));
+  }
+
+  const getNewsByQuery = (text, page)=>{
+    return commonWrapper(fetch(encodeURI(`/api/news-query?page=${page}&text=${text}`)));
+  }
+
   /**
    * Loadmore button
    * @param {*} searchReset 
    */
-  const loadMore = (searchReset) => {
-    (searchTerm ? getNewsByQuery(searchTerm, pageSize) : getTopNews(pageSize))
+  const loadMore = () => {
+    (searchTerm ? getNewsByQuery(searchTerm, page + 1) : getTopNews(page + 1))
     .then((resp)=>{
-      setPageSize(pageSize + 10);
-      setNews(resp.articles);
+      if(resp.articles.length !== 0){
+        setpage(page + 1);
+        setNews([...news, ...resp.articles]);
+      }else{
+        alert("No more news");
+      }
     })
     .catch((e)=>{
       console.error("Error in LoadMore", e);
@@ -48,7 +64,7 @@ export default function Home(props) {
    * Reset the search string
    */
   const searchReset = ()=>{   
-      setPageSize(NEW_PAGE_SIZE);
+      setpage(NEW_PAGE_SIZE);
       setSearchTerm('');
       getTopNews(NEW_PAGE_SIZE)
       .then((resp)=>{
@@ -73,8 +89,9 @@ export default function Home(props) {
         <p className={styles.description}> NewsFeed using <a style={{textDecoration: 'underline'}} href="https://newsapi.org/">newsapi.org</a> </p>
         <SearchBar 
           searchText={searchTerm}
-          onClick={(text)=>{            
-            makeSearchRequest(text);
+          onClick={(text)=>{
+            setpage(NEW_PAGE_SIZE);
+            makeSearchRequest(text, NEW_PAGE_SIZE);
           }} 
         />
 
@@ -109,6 +126,7 @@ export default function Home(props) {
  * @returns 
  */
 export async function getStaticProps(context) {
+  const { getTopNews } = require('./api/news');
   const news = await getTopNews();
   
   if (!news) {

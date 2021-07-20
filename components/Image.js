@@ -8,7 +8,7 @@ import React, { useState } from 'react';
  */
 export const ImageLoader = (props)=>{
 
-    const [loadedImage, setLoadedImage] = useState(props.src ? '': 'https://via.placeholder.com/1200x600.png/6b6666/FFFFFF?text=Condenast%20-%20No%20image');
+    const [loadedImage, setLoadedImage] = useState('https://via.placeholder.com/1200x600.png/6b6666/FFFFFF?text=Condenast%20-%20No%20image');
     
     if(props.src){
         const imageLoad = new Image();
@@ -19,7 +19,7 @@ export const ImageLoader = (props)=>{
         };
     }
 
-    return <img alt={props.alt} src={loadedImage} role="presentation" />
+    return <img alt={props.alt} src={loadedImage} loading="lazy" role="presentation" />
 }
 
 export default ImageLoader;

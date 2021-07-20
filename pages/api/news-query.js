@@ -7,23 +7,24 @@ import {
 } from '../../app-config/constants';
 
 /**
- * Expose to get intialProps
+ * Gets new by Query
+ * @param {*} text 
+ * @param {*} page 
  * @returns 
  */
-export async function getTopNews(page) {
-    const news = fetch(`${BASE_URL}/top-headlines?country=${COUNTRY_ISO_CODE}&page=${page || NEW_PAGE_SIZE}&apiKey=${API_KEY}`);
+export async function getNewsByQuery(text, page) {
+    const news = fetch(`${BASE_URL}/everything?q=${text}&page=${page || NEW_PAGE_SIZE}&apiKey=${API_KEY}`);
     return (await news).json();
 }
 
-
-/**
+/* 
  * Expose as an API
  * @param {*} req 
  * @param {*} res 
  */
-export default function handler(req, res) {
-    const { page } = req.query;
-    getTopNews(page)
+export default function handler(req, res) {    
+    const { page, text } = req.query;
+    getNewsByQuery(text, page)
         .then((news) => {
             res.status(200).json({
                 ...news
