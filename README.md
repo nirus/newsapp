@@ -1,3 +1,5 @@
+## News feed App using newsapi.org
+
 This is a Fullstack [Next.js](https://nextjs.org/) project for CondeNast
 
 ## Getting Started
